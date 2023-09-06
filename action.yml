@@ -1,5 +1,8 @@
 name: 'ai18n upload strings'
 description: 'upload a translation.yml file to ai18n'
+branding:
+  icon: 'book-open'
+  color: 'green'
 inputs:
   ai18n_strings_path:
     description: 'Path to the ai18n-strings.yml file'
