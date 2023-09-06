@@ -1,0 +1,15 @@
+{
+  "name": "ai18n-actions",
+  "version": "0.0.1",
+  "description": "A GitHub Action to upload ai18n-strings.yml to a hardcoded API endpoint",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "axios": "^1.5.0"
+  }
+}

@@ -1,0 +1,9 @@
+name: 'ai18n upload strings'
+description: 'upload a translation.yml file to ai18n'
+inputs:
+  ai18n_strings_path:
+    description: 'Path to the ai18n-strings.yml file'
+    required: true
+runs:
+  using: 'node16'
+  main: 'index.js'
