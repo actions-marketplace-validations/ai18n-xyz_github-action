@@ -6,17 +6,19 @@ const UPLOAD_STRINGS_ENDPOINT = "https://996c-2603-7000-4e3e-f133-9909-6d11-f267
 
 async function run() {
   try {
-    const ai18nStringsPath = core.getInput('ai18n_strings_path');
-    const fileContent = fs.readFileSync(ai18nStringsPath, 'utf8');
+    const stringsPath = core.getInput('strings_path');
+    const targetLocales = core.getInput('target_locales');
+    const fileContent = fs.readFileSync(stringsPath, 'utf8');
 
     const response = await axios.post(UPLOAD_STRINGS_ENDPOINT, {
-      data: fileContent,
+      strings: fileContent,
+      target_locales: targetLocales
     });
 
     if (response.status === 200) {
-      console.log('Successfully uploaded ai18n-strings.yml');
+      console.log('Successfully uploaded strings file');
     } else {
-      core.setFailed('Failed to upload ai18n-strings.yml');
+      core.setFailed('Failed to upload strings file');
     }
   } catch (error) {
     core.setFailed(error.message);

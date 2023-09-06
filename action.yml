@@ -4,8 +4,11 @@ branding:
   icon: 'book-open'
   color: 'green'
 inputs:
-  ai18n_strings_path:
+  strings_path:
     description: 'Path to the ai18n-strings.yml file'
+    required: true
+  target_locales:
+    description: 'An array of locales that you want to generate translations for'
     required: true
 runs:
   using: 'node16'
