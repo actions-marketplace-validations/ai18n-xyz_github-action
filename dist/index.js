@@ -9430,7 +9430,12 @@ async function run() {
     const targetLocales = core.getInput('target_locales');
     const fileContent = fs.readFileSync(stringsPath, 'utf8');
 
+    const ai18nProjectId = process.env.AI18N_PROJECT_ID;
+    const ai18nUploadToken = process.env.AI18N_UPLOAD_TOKEN;
+
     const response = await axios.post(UPLOAD_STRINGS_ENDPOINT, {
+      project_id: ai18nProjectId,
+      upload_token: ai18nUploadToken,
       strings: fileContent,
       target_locales: targetLocales
     });

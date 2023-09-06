@@ -1,1 +1,1 @@
-This is placeholder text in the readme
+This is a placeholder readme
