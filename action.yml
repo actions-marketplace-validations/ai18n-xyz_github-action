@@ -11,5 +11,5 @@ inputs:
     description: 'An array of locales that you want to generate translations for'
     required: true
 runs:
-  using: 'node18'
+  using: 'node16'
   main: 'dist/index.js'
