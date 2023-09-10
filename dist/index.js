@@ -9422,7 +9422,7 @@ const axios = __nccwpck_require__(8757);
 const core = __nccwpck_require__(2186);
 const fs = __nccwpck_require__(7147);
 
-const UPLOAD_STRINGS_ENDPOINT = "https://996c-2603-7000-4e3e-f133-9909-6d11-f267-60ae.ngrok-free.app/upload-strings";
+const UPLOAD_STRINGS_ENDPOINT = "https://5375-50-84-77-156.ngrok-free.app/upload-strings";
 
 async function run() {
   try {
@@ -9430,14 +9430,16 @@ async function run() {
     const targetLocales = core.getInput('target_locales');
     const fileContent = fs.readFileSync(stringsPath, 'utf8');
 
-    const ai18nProjectId = process.env.AI18N_PROJECT_ID;
+    const ai18nProjectId   = process.env.AI18N_PROJECT_ID;
     const ai18nUploadToken = process.env.AI18N_UPLOAD_TOKEN;
+    const githubRepository = process.env.GITHUB_REPOSITORY;
 
     const response = await axios.post(UPLOAD_STRINGS_ENDPOINT, {
       project_id: ai18nProjectId,
       upload_token: ai18nUploadToken,
       strings: fileContent,
-      target_locales: targetLocales
+      target_locales: targetLocales,
+      github_repository: githubRepository
     });
 
     if (response.status === 200) {
