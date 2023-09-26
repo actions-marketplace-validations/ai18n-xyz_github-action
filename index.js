@@ -9,7 +9,7 @@ async function run() {
   try {
     const stringsPath = core.getInput('strings_path');
     const targetLocales = core.getInput('target_locales');
-    const fileStream = fs.readFileSync(stringsPath, 'utf8');
+    const fileStream = fs.createReadStream(stringsPath, 'utf8');
 
     const ai18nProjectId   = process.env.AI18N_PROJECT_ID;
     const ai18nUploadToken = process.env.AI18N_UPLOAD_TOKEN;
@@ -23,9 +23,7 @@ async function run() {
     formData.append('github_repository', githubRepository);
 
     const response = await axios.post(UPLOAD_STRINGS_ENDPOINT, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+      headers: formData.getHeaders()
     });
 
     if (response.status === 200) {
