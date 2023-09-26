@@ -9454,8 +9454,8 @@ async function run() {
       console.log('Successfully uploaded new strings file');
     }
   } catch (error) {
-    const failureMessage = response.data.message ?? error.message;
-    core.setFailed(error.message);
+    const failureMessage = error.message;
+    core.setFailed(failureMessage);
   }
 }
 
