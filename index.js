@@ -53,7 +53,8 @@ function extractLocalizeStrings(files) {
 
 // Main function to generate localization map
 function generateLocalizationMap() {
-  const files = getFiles('./src'); // Point this to your source files directory
+  const source_path = core.getInput('source_path');
+  const files = getFiles(source_path); // Point this to your source files directory
   const localizationMap = extractLocalizeStrings(files);
   fs.writeFileSync('localizationMap.json', JSON.stringify(localizationMap, null, 2), 'utf8');
 }
