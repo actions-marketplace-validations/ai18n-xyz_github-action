@@ -56338,6 +56338,7 @@ const parser = __nccwpck_require__(5026);
 const path = __nccwpck_require__(1017);
 const SHA3 = __nccwpck_require__(7800);
 const traverse = (__nccwpck_require__(1380)["default"]);
+const t = __nccwpck_require__(7912);
 const { execSync } = __nccwpck_require__(2081);
 
 // Helper function to get all files in directory recursively
@@ -56356,6 +56357,33 @@ function getFiles(dir, files_) {
 }
 
 // Helper function to extract localize function calls and create hash map
+// function extractLocalizeStrings(files) {
+//   let localizationMap = {};
+
+//   files.forEach((file) => {
+//     const code = fs.readFileSync(file, 'utf8');
+//     const ast = parser.parse(code, {
+//       sourceType: 'module',
+//       plugins: ['jsx', 'typescript'],
+//     });
+
+//     traverse(ast, {
+//       CallExpression(path) {
+//         if (path.node.callee.name === 't') {
+//           const arg = path.node.arguments[0];
+//           if (arg && arg.type === 'StringLiteral') {
+//             const text = arg.value;
+//             const hash = SHA3(text).toString();
+//             localizationMap[hash] = text;
+//           }
+//         }
+//       },
+//     });
+//   });
+
+//   return localizationMap;
+// }
+
 function extractLocalizeStrings(files) {
   let localizationMap = {};
 
@@ -56368,12 +56396,26 @@ function extractLocalizeStrings(files) {
 
     traverse(ast, {
       CallExpression(path) {
-        if (path.node.callee.name === 't') {
+        if (t.isIdentifier(path.node.callee, { name: 't' })) {
           const arg = path.node.arguments[0];
-          if (arg && arg.type === 'StringLiteral') {
-            const text = arg.value;
-            const hash = SHA3(text).toString();
-            localizationMap[hash] = text;
+
+          // Handle string literals
+          if (t.isStringLiteral(arg)) {
+            const textObject = { text: arg.value };
+            const hash = SHA3(JSON.stringify(textObject)).toString();
+            localizationMap[hash] = textObject;
+          }
+          // Handle object expressions
+          else if (t.isObjectExpression(arg)) {
+            const properties = arg.properties;
+            let textObject = {};
+            properties.forEach(prop => {
+              if (t.isObjectProperty(prop) && t.isStringLiteral(prop.value)) {
+                textObject[prop.key.name || prop.key.value] = prop.value.value;
+              }
+            });
+            const hash = SHA3(JSON.stringify(textObject)).toString();
+            localizationMap[hash] = textObject;
           }
         }
       },
