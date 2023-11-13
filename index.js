@@ -8,6 +8,7 @@ const SHA3 = require('crypto-js/sha3');
 const traverse = require('@babel/traverse').default;
 const t = require('@babel/types');
 const { execSync } = require('child_process');
+const yaml = require('js-yaml');
 
 // Helper function to get all files in directory recursively
 function getFiles(dir, files_) {
@@ -102,28 +103,40 @@ function generateLocalizationMap() {
 }
 
 async function run() {
-  const UPLOAD_STRINGS_ENDPOINT = "https://alwaysbcoding.ngrok.io/github-actions/upload-strings";
+  const GITHUB_ACTION_API_ENTRYPOINT = "https://alwaysbcoding.ngrok.io/github-actions/entrypoint";
 
   try {
-    generateLocalizationMap();
+    const config = yaml.load(fs.readFileSync('./.blendin.yml', 'utf8'));
 
-    if (!fs.existsSync('localizationMap.json')) {
-      throw new Error('localizationMap.json file not found.');
-    }
+    // generateLocalizationMap();
 
-    const localizationMap = fs.createReadStream('localizationMap.json');
+    // if (!fs.existsSync('localizationMap.json')) {
+    //   throw new Error('localizationMap.json file not found.');
+    // }
 
-    const blendinProjectId   = process.env.BLENDIN_PROJECT_ID;
-    const blendinUploadToken = process.env.BLENDIN_UPLOAD_TOKEN;
+    // const localizationMap = fs.createReadStream('localizationMap.json');
+
     const githubRepository = process.env.GITHUB_REPOSITORY;
 
     const formData = new FormData();
-    formData.append('file', localizationMap);
-    formData.append('project_id', blendinProjectId);
-    formData.append('upload_token', blendinUploadToken);
+    // formData.append('file', localizationMap);
+
+    formData.append('project_id', config.projectId);
+    formData.append('api_token', config.apiToken); // read from environment variable in production
+
+    formData.append('source_locale', config.sourceLocale);
+    formData.append('default_locale', config.defaultLocale);
+    formData.append('target_locales', config.targetLocales);
+
+    formData.append('file', '...');
+
+    formData.append('base_branch_name', config.baseBranchName);
+    formData.append('pr_branch_name', config.prBranchName);
+    formData.append('locales_path', config.localesPath);
+
     formData.append('github_repository', githubRepository);
 
-    const response = await axios.post(UPLOAD_STRINGS_ENDPOINT, formData, {
+    const response = await axios.post(GITHUB_ACTION_API_ENTRYPOINT, formData, {
       headers: formData.getHeaders()
     });
 
