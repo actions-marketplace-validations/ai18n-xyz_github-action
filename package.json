@@ -1,6 +1,6 @@
 {
   "name": "ai18n-actions",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "A GitHub Action to upload ai18n-strings.yml to a hardcoded API endpoint",
   "main": "index.js",
   "scripts": {

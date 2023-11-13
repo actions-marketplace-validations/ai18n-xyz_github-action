@@ -60560,7 +60560,7 @@ async function run() {
     const githubRepository = process.env.GITHUB_REPOSITORY;
     const GITHUB_REPOSITORY_INFO_URI = `https://api.github.com/repos/${githubRepository}`;
 
-    var repoDetails = {}
+    var repoDetails = {};
 
     try {
       const repoResponse = await axios.get(GITHUB_REPOSITORY_INFO_URI, {
@@ -60599,7 +60599,10 @@ async function run() {
     formData.append('pr_branch_name', config.prBranchName);
     formData.append('locales_path', config.localesPath);
 
-    formData.append('github_repository', repoDetails);
+    formData.append('github_repository_id', repoDetails.id);
+    formData.append('github_repository_name', repoDetails.name);
+    formData.append('github_repository_url', repoDetails.url);
+    formData.append('github_repository_is_private', repoDetails.is_private);
 
     const response = await axios.post(GITHUB_ACTION_API_ENTRYPOINT, formData, {
       headers: formData.getHeaders()
