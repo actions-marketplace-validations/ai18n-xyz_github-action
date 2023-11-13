@@ -60566,7 +60566,7 @@ async function run() {
 
     formData.append('source_locale', config.sourceLocale);
     formData.append('default_locale', config.defaultLocale);
-    formData.append('target_locales', config.targetLocales);
+    formData.append('target_locales', config.targetLocales.join(','));
 
     formData.append('file', '...');
 
