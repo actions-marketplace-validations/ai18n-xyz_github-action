@@ -60599,10 +60599,10 @@ async function run() {
     formData.append('pr_branch_name', config.prBranchName);
     formData.append('locales_path', config.localesPath);
 
-    formData.append('github_repository_id', repoDetails.id);
-    formData.append('github_repository_name', repoDetails.name);
-    formData.append('github_repository_url', repoDetails.url);
-    formData.append('github_repository_is_private', repoDetails.is_private);
+    formData.append('github_repository_id', `${repoDetails.id}`);
+    formData.append('github_repository_name', `${repoDetails.name}`);
+    formData.append('github_repository_url', `${repoDetails.url}`);
+    formData.append('github_repository_is_private', `${repoDetails.is_private}`);
 
     const response = await axios.post(GITHUB_ACTION_API_ENTRYPOINT, formData, {
       headers: formData.getHeaders()
