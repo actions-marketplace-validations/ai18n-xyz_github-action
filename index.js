@@ -116,7 +116,25 @@ async function run() {
 
     // const localizationMap = fs.createReadStream('localizationMap.json');
 
+    const githubToken = process.env.GITHUB_TOKEN;
     const githubRepository = process.env.GITHUB_REPOSITORY;
+    const GITHUB_REPOSITORY_INFO_URI = `https://api.github.com/repos/${githubRepository}`;
+
+    const repoResponse = await axios.get(GITHUB_REPOSITORY_INFO_URI, {
+      headers: {
+        'Authorization': `token ${githubToken}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+
+    const repoData = repoResponse.data;
+
+    const repoDetails = {
+      id: repoData.id,
+      name: repoData.name,
+      url: repoData.html_url,
+      is_private: repoData.private
+    }
 
     const formData = new FormData();
     // formData.append('file', localizationMap);
@@ -134,7 +152,7 @@ async function run() {
     formData.append('pr_branch_name', config.prBranchName);
     formData.append('locales_path', config.localesPath);
 
-    formData.append('github_repository', githubRepository);
+    formData.append('github_repository', repoDetails);
 
     const response = await axios.post(GITHUB_ACTION_API_ENTRYPOINT, formData, {
       headers: formData.getHeaders()
