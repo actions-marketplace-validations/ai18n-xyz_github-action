@@ -153,8 +153,6 @@ async function run() {
     formData.append('default_locale', config.defaultLocale);
     formData.append('target_locales', config.targetLocales.join(','));
 
-    formData.append('file', '...');
-
     formData.append('base_branch_name', config.baseBranchName);
     formData.append('pr_branch_name', config.prBranchName);
     formData.append('locales_path', config.localesPath);
