@@ -60546,7 +60546,7 @@ async function run() {
   const GITHUB_ACTION_API_ENTRYPOINT = "https://alwaysbcoding.ngrok.io/github-actions/entrypoint";
 
   try {
-    const config = yaml.load(fs.readFileSync('./.blendin.yml', 'utf8'));
+    const config = JSON.parse(fs.readFileSync('./src/blendin.json', 'utf8'));
 
     // generateLocalizationMap();
 
