@@ -108,13 +108,13 @@ async function run() {
   try {
     const config = JSON.parse(fs.readFileSync('./src/blendin.json', 'utf8'));
 
-    // generateLocalizationMap();
+    generateLocalizationMap();
 
-    // if (!fs.existsSync('localizationMap.json')) {
-    //   throw new Error('localizationMap.json file not found.');
-    // }
+    if (!fs.existsSync('localizationMap.json')) {
+      throw new Error('localizationMap.json file not found.');
+    }
 
-    // const localizationMap = fs.createReadStream('localizationMap.json');
+    const localizationMap = fs.createReadStream('localizationMap.json');
 
     const githubToken = process.env.GITHUB_TOKEN;
     const githubRepository = process.env.GITHUB_REPOSITORY;
@@ -144,7 +144,7 @@ async function run() {
     }
 
     const formData = new FormData();
-    // formData.append('file', localizationMap);
+    formData.append('file', localizationMap);
 
     formData.append('project_id', config.projectId);
     formData.append('api_token', config.apiToken); // read from environment variable in production
