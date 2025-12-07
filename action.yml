@@ -1,14 +1,14 @@
-name: 'ai18n upload strings'
-description: 'upload a translation.yml file to ai18n'
+name: 'blendin upload strings'
+description: 'upload strings to blendin'
 branding:
   icon: 'book-open'
   color: 'green'
 inputs:
-  strings_path:
-    description: 'Path to the ai18n-strings.yml file'
+  source_path:
+    description: 'Path to the source directory where strings should be found'
     required: true
-  target_locales:
-    description: 'An array of locales that you want to generate translations for'
+  config_file_path:
+    description: 'Path to the blendin config file'
     required: true
 runs:
   using: 'node16'
